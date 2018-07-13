@@ -70,6 +70,9 @@ like this
     > https://www.52pojie.cn/thread-743886-1-1.html
 
 ## App 端展示
+Google Calendar
+![](https://github.com/Vove7/CtAssistant_Server/blob/master/screenshot/Screenshot_1.jpg?raw=true)
+![](https://github.com/Vove7/CtAssistant_Server/blob/master/screenshot/Screenshot_2.jpg?raw=true)
 
 ## 联系我
 
