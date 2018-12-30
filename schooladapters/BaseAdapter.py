@@ -1,7 +1,10 @@
 import json
 from http.cookiejar import CookieJar
+from typing import Optional, List
 
 import requests
+
+from model.model import AcademicYear
 
 
 class BaseAdapter:
@@ -28,10 +31,12 @@ class BaseAdapter:
         pass
 
     # 个人课表
+    # 返回list<ClassInfo>
     def getClassTable(self, academicYear, stuNo=None) -> list:
         pass
 
     # 第一周星期一日期
+    # 此接口可返回空，App端手动选择
     def getBaseWeek(self, semester) -> str:
         pass
 
@@ -47,13 +52,14 @@ class BaseAdapter:
         return json.dumps(body, default=lambda o: o.__dict__, indent=3)
 
     # 时间表
+    # 返回 数组 [TimeTable,TimeTable, .. ]
     def getTimeTable(self):
         pass
 
     # 获取当前学期和周次
-    def getCurrentAcademicYear(self):
+    def getCurrentAcademicYear(self) -> Optional[AcademicYear]:
         pass
 
     # 获取所有学年学期
-    def getAllAcademicYear(self):
+    def getAllAcademicYear(self) -> Optional[List[AcademicYear]]:
         pass

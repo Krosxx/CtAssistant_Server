@@ -1,6 +1,7 @@
 ﻿import json
 import re
 import datetime
+from typing import Optional, List
 
 import requests
 from http.cookiejar import CookieJar
@@ -212,7 +213,7 @@ class HaustAdapter(BaseAdapter):
         return json.text
 
     # 获取当前学期和周次
-    def getCurrentAcademicYear(self):
+    def getCurrentAcademicYear(self) -> Optional[AcademicYear]:
         if not self.isLogin:
             # print("未登录")
             return None
@@ -234,7 +235,7 @@ class HaustAdapter(BaseAdapter):
             return None
 
     # 获取所有学年学期
-    def getAllAcademicYear(self):
+    def getAllAcademicYear(self) -> Optional[List[AcademicYear]]:
         if not self.isLogin:
             # print("未登录")
             return None
@@ -253,21 +254,23 @@ class HaustAdapter(BaseAdapter):
 
 
 if (__name__ == "__main__"):
+    # 同级下建立't' 文件 第一行账号 第二行 密码
     f = open('t', 'r')
     n = f.readline().replace('\n', '')
     p = f.readline()
     h = HaustAdapter(n, p)
     # h.getPersonalInfo('151404060132')
     # cts = h.getClassTable('20171')
-    # print(json.dumps(cts, default=lambda o: o.__dict__, indent=4))
+    # print(cts)
+    # print(json.dumps(cts, default=lambda o: o.__dict__, indent=2))
 
     # print(h.getBaseWeek('20171'))
     # print(h.getDataByWeek('20171', '01'))
     # tb = h.getTimeTable()
     # print(json.dumps(tb, default=lambda o: o.__dict__, indent=3))
     # h.getWeekDate('20171')
-    j = h.getCurrentAcademicYear()
-    print(json.dumps(j, default=lambda o: o.__dict__, indent=3))
+    # j = h.getCurrentAcademicYear()
+    # print(json.dumps(j, default=lambda o: o.__dict__, indent=2))
     j = h.getAllAcademicYear()
     print(json.dumps(j, default=lambda o: o.__dict__, indent=3))
     h.close()

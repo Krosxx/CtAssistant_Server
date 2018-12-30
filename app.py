@@ -4,6 +4,7 @@ import json
 from flask import Flask, Response
 from flask import request
 
+from model.model import SchoolInfo
 from schooladapters.BaseAdapter import BaseAdapter
 from schooladapters.HaustAdapter import HaustAdapter
 
@@ -41,13 +42,14 @@ def getSchoolAdapter(schCode, sNo, pa, autoLogin=True):
         o.login()
     return o
 
+
 # 此处添加你的学校名and代码
 supportSchools = {
-    '河南科技大学': 'haust',
+    '河南科技大学': SchoolInfo('haust', '请使用我i科大账号密码登陆'),
 }
 
 
-# 支持学校
+# 支持学校列表
 @app.route('/getSupportSchools', methods=['GET', 'POST'])
 def getSupportSchools():
     body = {
@@ -56,7 +58,7 @@ def getSupportSchools():
     }
     return obj2Json(body)
 
-
+# 此学校显示提示消息
 @app.route('/homeMessage', methods=['GET', 'POST'])
 def homeMessage():
     schCode = request.form.get('sCode', None)

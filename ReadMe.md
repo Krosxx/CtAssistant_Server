@@ -12,35 +12,56 @@
 
 ```python
 class YourAdapter(BaseAdapter):
-    # 主页显示提示消息
+    # 此学校显示提示消息
+    '''
+    json示例：
+    无
+    '''
     def homeMessage(self):
         pass
 
-    # 登陆
+    # 登陆 
+    # 返回账户信息是否正确
     def login(self) -> bool:
         pass
 
     # 个人课表
+    # 返回list<ClassInfo>
     def getClassTable(self, academicYear, stuNo=None) -> list:
         pass
 
-    # 第一周星期一日期
+    # 第一周星期一日期 
+    # 此接口可返回空，App端手动选择
+    '''
+    返回示例：
+    2018-03-05
+    '''
     def getBaseWeek(self, semester) -> str:
         pass
 
     # 学年信息(非必须)
     def getAyInfo(o):
         pass
+        
     # 时间表
+    '''
+    返回 数组 [TimeTable,TimeTable, .. ]
+    '''
     def getTimeTable(self):
         pass
 
     # 获取当前学期和周次
-    def getCurrentAcademicYear(self):
+    '''
+    @:return Optional[AcademicYear]
+    '''
+    def getCurrentAcademicYear(self) -> Optional[AcademicYear]:
         pass
 
     # 获取所有学年学期
-    def getAllAcademicYear(self):
+    '''
+    @:return Optional[List[AcademicYear]]
+    '''
+    def getAllAcademicYear(self) -> Optional[List[AcademicYear]]:
         pass
 
 
