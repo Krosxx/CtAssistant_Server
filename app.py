@@ -1,6 +1,7 @@
 # app.py
 import json
 
+import os
 from flask import Flask, Response
 from flask import request
 
@@ -73,6 +74,37 @@ def homeMessage():
             'status': 'success',
             'message': o.homeMessage()
         }
+    return obj2Json(body)
+
+
+# 申请适配
+@app.route('/postApplyAdapter',  methods=['GET', 'POST'])
+def postApplyAdapter():
+    body = {}
+    print(request.remote_addr)
+    schoolName = request.form.get('schoolName', None)
+    schoolWebsite = request.form.get('schoolWebsite', None)
+    testAccount = request.form.get('testAccount', None)
+    testPassword = request.form.get('testPassword', None)
+    status = False
+    try:
+        name = "applyAdapter/" + schoolName + ".txt"
+        result = os.path.exists(name)
+        try:
+            if result is False:   # 学校已经有人申请适配过则追击账号密码否则创建新文件
+                fp = open("applyAdapter/" + schoolName + ".txt", 'w')  # 直接打开一个文件，如果文件不存在则创建文件
+                fp.write("学校名称：" + schoolName + "\n")
+                fp.write("学校网站：" + schoolWebsite + "\n")
+            else:
+                fp = open("applyAdapter/" + schoolName + ".txt", 'a')  # 直接打开一个文件，如果文件不存在则创建文件
+            fp.write("测试账号：" + testAccount + "\n")
+            fp.write("测试密码：" + testPassword + "\n")
+            fp.flush()
+            status = True
+        finally:
+            fp.close()
+    finally:
+        body['status'] = status
     return obj2Json(body)
 
 
