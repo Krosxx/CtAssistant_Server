@@ -27,7 +27,7 @@ app.config['APPLYS_FOLDER'] = os.getcwd() + '\\applys'
 # app = MyFlask(__name__)
 
 
-@app.route('/',methods=['GET'])
+@app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
 
@@ -41,8 +41,10 @@ def applyAdapter():
                 "sNo": request.form.get('sNo', ''), "pa": request.form.get('pa', ''),
                 "other": request.form.get('other', '')}
         jsonData = json.dumps(data)
-        fileName = schName + '-' + date + '.json'
+        fileName = schName + '_' + date + '.json'
         filepath = os.path.join(app.config['APPLYS_FOLDER'], fileName)
+        if not os.path.exists(filepath):
+            os.makedirs(filepath)
         with open(filepath, 'w') as f:
             f.write(jsonData)
         return render_template('success.html')
