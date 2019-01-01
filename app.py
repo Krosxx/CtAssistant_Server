@@ -16,9 +16,15 @@ app = Flask(__name__, template_folder='templates')
 
 app.config['APPLYS_FOLDER'] = os.getcwd() + '\\applys'
 
-# class MyResponse(Response):
-#     default_mimetype = 'application/json'
-#
+
+class JsonResponse(Response):
+    default_mimetype = 'application/json'
+
+
+class HtmlResponse(Response):
+    default_mimetype = 'text/html'
+
+
 #
 # class MyFlask(Flask):
 #     response_class = MyResponse
@@ -29,22 +35,25 @@ app.config['APPLYS_FOLDER'] = os.getcwd() + '\\applys'
 
 @app.route('/', methods=['GET'])
 def index():
+    app.response_class = HtmlResponse
     return render_template('index.html')
 
 
 @app.route('/applyAdapter', methods=["Get", "POST"])
 def applyAdapter():
+    app.response_class = HtmlResponse
     if request.method == "POST":
         date = time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime())
         schName = request.form.get('schName', '')
         data = {"schName": schName, "date": date, "shcUrl": request.form.get('shcUrl', ''),
                 "sNo": request.form.get('sNo', ''), "pa": request.form.get('pa', ''),
                 "other": request.form.get('other', '')}
-        jsonData = json.dumps(data)
+        jsonData = json.dumps(data, indent=2)
         fileName = schName + '_' + date + '.json'
-        filepath = os.path.join(app.config['APPLYS_FOLDER'], fileName)
-        if not os.path.exists(filepath):
-            os.makedirs(filepath)
+        requestFolder = app.config['APPLYS_FOLDER']
+        filepath = os.path.join(requestFolder, fileName)
+        if not os.path.exists(requestFolder):
+            os.makedirs(requestFolder)
         with open(filepath, 'w') as f:
             f.write(jsonData)
         return render_template('success.html')
@@ -52,8 +61,8 @@ def applyAdapter():
         return render_template('index.html')
 
 
-
 def obj2Json(o):
+    app.response_class = JsonResponse
     return json.dumps(o, default=lambda o: o.__dict__, indent=3)
 
 
@@ -111,7 +120,7 @@ def homeMessage():
 
 
 # 申请适配
-@app.route('/postApplyAdapter',  methods=['GET', 'POST'])
+@app.route('/postApplyAdapter', methods=['GET', 'POST'])
 def postApplyAdapter():
     body = {}
     print(request.remote_addr)
@@ -124,7 +133,7 @@ def postApplyAdapter():
         name = "applyAdapter/" + schoolName + ".txt"
         result = os.path.exists(name)
         try:
-            if result is False:   # 学校已经有人申请适配过则追击账号密码否则创建新文件
+            if result is False:  # 学校已经有人申请适配过则追击账号密码否则创建新文件
                 fp = open("applyAdapter/" + schoolName + ".txt", 'w')  # 直接打开一个文件，如果文件不存在则创建文件
                 fp.write("学校名称：" + schoolName + "\n")
                 fp.write("学校网站：" + schoolWebsite + "\n")
