@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>课表助手</title>
+
+<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+
+<!-- Google fonts -->
+<link href='http://fonts.googleapis.com/css?family=Raleway:400,800' rel='stylesheet' type='text/css'>
+
+<!-- font awesome -->
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- bootstrap -->
+<link rel="stylesheet" href="../static/assets/bootstrap/css/bootstrap.min.css" />
+
+<!-- animate.css -->
+<link rel="stylesheet" href="../static/assets/animate/animate.css" />
+
+
+<!-- favicon -->
+<link rel="shortcut icon" href="../static/images/favicon.png" type="image/x-icon">
+<link rel="icon" href="../static/images/favicon.png" type="image/x-icon">
+
+
+<link rel="stylesheet" href="../static/assets/style.css">
+
+</head>
+
+<body id="home">
+<!-- header -->
+      
+       
+
+      <!-- intro -->
+      <div class="intro">
+      <div class="fullpage">
+        <div class="ab-wrap">
+        <div class="ab-center">
+          <div class="wowload fadeInDown">
+          <img src="../static/images/logo.png" class="wowload rotateIn">
+              <br/>
+          <h1 class="title">课 表 助 手</h1>
+          <p>将你的课程表放到日历中</p>
+              <a href="" download="ShowMe.apk" class="btn btn-primary"><i class="icon-android"></i>  Download</a>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <a href="#about" class="anchor scroll wowload fadeInDownBig"><i class="fa fa-angle-down  fa-4x"></i></a>
+
+      </div>
+      <!-- intro -->
+
+<!-- portfolio -->
+    <div class="portfolio">
+      <div class="spacer">
+        <div class="container">
+        <h2 class="text-center">预览</h2>
+        <div id="carousel-about" class="carousel slide wowload fadeInUp" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+          <div align="center" class="item active"><img src="../static/images/Screenshot_1.jpg" width="400" height="600" class="img-responsive"></div>
+          <div align="center"  class="item"><img src="../static/images/Screenshot_2.jpg" width="400" height="600" class="img-responsive"></div>
+        </div>
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-about" role="button" data-slide="prev"><i class="fa fa-3x fa-angle-left"></i></a>
+        <a class="right carousel-control" href="#carousel-about" role="button" data-slide="next"><i class="fa fa-3x fa-angle-right"></i></a>
+        </div>
+        </div>
+      </div>
+    </div>
+<!-- portfolio -->
+
+       <!-- Adapter -->
+       <div class="contact wowload fadeIn">
+
+       <div class="container">
+       <h2 class="text-center">申请适配你的学校</h2>
+       <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <form action="/applyAdapter" id = "oneFacePic" ng-app="myApp" name="myForm"
+                  ng-controller="validateCtrl" method=POST enctype=multipart/form-data>
+
+                <div class="form-group">
+                    <input id="schName" name="schName" type="text" class="form-control" placeholder="学校名称" required/>
+                    <span style="color:red" ng-show="myForm.schName.$dirty && myForm.schName.$invalid">
+                      <span ng-show="myForm.schName.$error.required">请填写你的学校名称！</span>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <input id="shcUrl" name="shcUrl" type="text" class="form-control" placeholder="学校教务处网址" required/>
+                      <span style="color:red" ng-show="myForm.shcUrl.$dirty && myForm.shcUrl.$invalid">
+                      <span ng-show="myForm.shcUrl.$error.required">请填写学校教务处网址！</span>
+                      </span>
+                </div>
+                <div class="form-group">
+                    <input id="sNo" name="sNo"  type="text" class="form-control" placeholder="学号" required/>
+                    <span style="color:red" ng-show="myForm.sNo.$dirty && myForm.sNo.$invalid">
+                      <span ng-show="myForm.sNo.$error.required">请填写学号！</span>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <input id="pa" name="pa" type="password"  class="form-control" placeholder="教务处登录密码" required/>
+                    <span style="color:red" ng-show="myForm.pa.$dirty && myForm.pa.$invalid">
+                      <span ng-show="myForm.pa.$error.required">请填写教务处登录密码！</span>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <textarea id="other" name="other" class="form-control" placeholder="其他信息(选填)" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-warning"><i class="fa fa-send-o"></i> 提交</button>
+            </form>
+         
+          </div>
+        </div>
+       </div>
+       </div>
+       <!-- contact -->
+
+
+<a href="#home" class="gototop scroll"><i class="fa fa-angle-up  fa-3x"></i></a>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('validateCtrl', function($scope) {
+
+});
+</script>
+
+<!-- jquery -->
+<script src="../static/assets/jquery.js"></script>
+
+<!-- wow script -->
+<script src="../static/assets/wow/wow.min.js"></script>
+
+<!-- boostrap -->
+<script src="../static/assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>
+
+<!-- jquery mobile -->
+<script src="../static/assets/mobile/touchSwipe.min.js"></script>
+<script src="../static/assets/respond/respond.js"></script>
+
+ 
+<!-- custom script -->
+<script src="../static/assets/script.js"></script>
+
+</body>
+</html>

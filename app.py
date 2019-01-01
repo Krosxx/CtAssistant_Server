@@ -1,23 +1,53 @@
 # app.py
 import json
+import time
+import os
 
 from flask import Flask, Response
 from flask import request
+from flask import render_template, send_from_directory, url_for
 
 from model.model import SchoolInfo
 from schooladapters.BaseAdapter import BaseAdapter
 from schooladapters.HaustAdapter import HaustAdapter
 
+app = Flask(__name__, template_folder='templates')
 
-class MyResponse(Response):
-    default_mimetype = 'application/json'
+app.config['APPLYS_FOLDER'] = os.getcwd() + '\\applys'
+
+# class MyResponse(Response):
+#     default_mimetype = 'application/json'
+#
+#
+# class MyFlask(Flask):
+#     response_class = MyResponse
+#
+#
+# app = MyFlask(__name__)
 
 
-class MyFlask(Flask):
-    response_class = MyResponse
+@app.route('/',methods=['GET'])
+def index():
+    return render_template('index.html')
 
 
-app = MyFlask(__name__)
+@app.route('/applyAdapter', methods=["Get", "POST"])
+def applyAdapter():
+    if request.method == "POST":
+        date = time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime())
+        schName = request.form.get('schName', '')
+        data = {"schName": schName, "date": date, "shcUrl": request.form.get('shcUrl', ''),
+                "sNo": request.form.get('sNo', ''), "pa": request.form.get('pa', ''),
+                "other": request.form.get('other', '')}
+        jsonData = json.dumps(data)
+        fileName = schName + '-' + date + '.json'
+        filepath = os.path.join(app.config['APPLYS_FOLDER'], fileName)
+        with open(filepath, 'w') as f:
+            f.write(jsonData)
+        return render_template('success.html')
+    else:
+        return render_template('index.html')
+
 
 
 def obj2Json(o):
@@ -57,6 +87,7 @@ def getSupportSchools():
         'supportSchools': supportSchools
     }
     return obj2Json(body)
+
 
 # 此学校显示提示消息
 @app.route('/homeMessage', methods=['GET', 'POST'])
