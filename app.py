@@ -141,22 +141,29 @@ def postApplyAdapter():
     testAccount = request.form.get('testAccount', None)
     testPassword = request.form.get('testPassword', None)
     status = False
+    date = time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime())
     try:
-        name = "applyAdapter/" + schoolName + ".txt"
+        name = "applyAdapter/" + schoolName + ".json"
         result = os.path.exists(name)
         try:
             if result is False:  # 学校已经有人申请适配过则追击账号密码否则创建新文件
-                fp = open("applyAdapter/" + schoolName + ".txt", 'w')  # 直接打开一个文件，如果文件不存在则创建文件
-                fp.write("学校名称：" + schoolName + "\n")
-                fp.write("学校网站：" + schoolWebsite + "\n")
+                data = {"学校名称": schoolName, "申请时间": date, "学校网站": schoolWebsite,
+                        "account": [{"时间": date, "测试账号": testAccount, "测试密码": testPassword}]
+                        }
+                jsonData = json.dumps(data, indent=2, ensure_ascii=False)
+                with open("applyAdapter/" + schoolName + ".json", 'w', encoding='utf8') as fp:  # 直接打开一个文件，如果文件不存在则创建文件
+                    fp.write(jsonData)
             else:
-                fp = open("applyAdapter/" + schoolName + ".txt", 'a')  # 直接打开一个文件，如果文件不存在则创建文件
-            fp.write("测试账号：" + testAccount + "\n")
-            fp.write("测试密码：" + testPassword + "\n")
-            fp.flush()
+                dataAdd = {"时间": date, "测试账号": testAccount, "测试密码": testPassword}
+                with open("applyAdapter/" + schoolName + ".json", mode='r+', encoding='utf8') as fp:  # 直接打开一个文件，如果文件不存在则创建文件
+                    last = json.loads(fp.read())
+                    last["account"].append(dataAdd)
+                with open("applyAdapter/" + schoolName + ".json", mode='w', encoding='utf8') as fp:
+                    fp.write(json.dumps(last, indent=2, ensure_ascii=False))
             status = True
-        finally:
-            fp.close()
+        except Exception as e:
+            print(e)
+            pass
     finally:
         body['status'] = status
     return obj2Json(body)
@@ -249,4 +256,4 @@ def checkParams(request):
 if __name__ == '__main__':
     from werkzeug.serving import run_simple
 
-    run_simple('localhost', 5000, app)
+    run_simple('0.0.0.0', 5000, app)
