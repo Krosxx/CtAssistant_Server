@@ -66,9 +66,10 @@ def applyDeal():
     app.response_class = HtmlResponse
     if request.method == "GET":
         applys = []
-        for file in os.listdir(app.config['APPLYS_FOLDER']):
-            if os.path.splitext(file)[1] == '.json':
-                applys.append(file)
+        if os.path.exists(app.config['APPLYS_FOLDER']):
+            for file in os.listdir():
+                if os.path.splitext(file)[1] == '.json':
+                    applys.append(file)
         return render_template('applyDeal.html', applys=applys)
 
 
