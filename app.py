@@ -14,7 +14,7 @@ from schooladapters.HaustAdapter import HaustAdapter
 
 app = Flask(__name__, template_folder='templates')
 
-app.config['APPLYS_FOLDER'] = os.getcwd() + '\\applys'
+app.config['APPLYS_FOLDER'] = os.getcwd() + '\\static\\applys'
 
 
 class JsonResponse(Response):
@@ -39,7 +39,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/applyAdapter', methods=["Get", "POST"])
+@app.route('/applyAdapter', methods=["GET", "POST"])
 def applyAdapter():
     app.response_class = HtmlResponse
     if request.method == "POST":
@@ -54,11 +54,22 @@ def applyAdapter():
         filepath = os.path.join(requestFolder, fileName)
         if not os.path.exists(requestFolder):
             os.makedirs(requestFolder)
-        with open(filepath, 'w') as f:
+        with open(filepath, 'w', encoding='utf8') as f:
             f.write(jsonData)
         return render_template('success.html')
     else:
         return render_template('index.html')
+
+
+@app.route('/applyDeal', methods=["GET", "POST"])
+def applyDeal():
+    app.response_class = HtmlResponse
+    if request.method == "GET":
+        applys = []
+        for file in os.listdir(app.config['APPLYS_FOLDER']):
+            if os.path.splitext(file)[1] == '.json':
+                applys.append(file)
+        return render_template('applyDeal.html', applys=applys)
 
 
 def obj2Json(o):
