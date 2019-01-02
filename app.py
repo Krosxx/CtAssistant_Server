@@ -52,8 +52,8 @@ def applyAdapter():
         fileName = schName + '_' + date + '.json'
         requestFolder = app.config['APPLYS_FOLDER']
         filepath = os.path.join(requestFolder, fileName)
-        if not os.path.exists(app.config['APPLYS_FOLDER']):
-            os.makedirs(filepath)
+        if not os.path.exists(requestFolder):
+            os.makedirs(requestFolder)
         with open(filepath, 'w') as f:
             f.write(jsonData)
         return render_template('success.html')
