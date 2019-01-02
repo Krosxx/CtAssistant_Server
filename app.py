@@ -67,7 +67,7 @@ def applyDeal():
     if request.method == "GET":
         applys = []
         if os.path.exists(app.config['APPLYS_FOLDER']):
-            for file in os.listdir():
+            for file in os.listdir(app.config['APPLYS_FOLDER']):
                 if os.path.splitext(file)[1] == '.json':
                     applys.append(file)
         return render_template('applyDeal.html', applys=applys)
